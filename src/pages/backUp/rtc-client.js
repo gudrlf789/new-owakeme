@@ -19,7 +19,7 @@ let options = {
 
 
 export default class RTCClient {
-    constructor(){
+    constructor() {
         this._client = null
         this._joined = false
         this._localStream = null
@@ -30,16 +30,16 @@ export default class RTCClient {
         this._created = false
     }
 
-    createClient (data) {
+    createClient(data) {
         this._client = AgoraRTC.createClient({ mode: data.mode, codec: data.codec })
         return this._client
     }
 
-    async setClientRole (role) {
+    async setClientRole(role) {
         await this._client.setClientRole(role)
     }
 
-    async join () {
+    async join() {
         const localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
         const localVideoTrack = await AgoraRTC.createCameraVideoTrack();
 
@@ -47,8 +47,8 @@ export default class RTCClient {
         await this._client.publish([localAudioTrack, localVideoTrack]);
 
         //this.createRTCTrack();
-        debugger;
-        return {localAudioTrack, localVideoTrack}
+
+        return { localAudioTrack, localVideoTrack }
     }
 
     /*async createRTCTrack () {
@@ -62,18 +62,18 @@ export default class RTCClient {
         }
     }*/
 
-    async share (){
+    async share() {
         this.createShareScreenTrack();
     }
 
-    async createShareScreenTrack (){
-        rtc.screenVideoTrack = await AgoraRTC.createScreenVideoTrack({encoderConfig: "1080p_1"});
+    async createShareScreenTrack() {
+        rtc.screenVideoTrack = await AgoraRTC.createScreenVideoTrack({ encoderConfig: "1080p_1" });
 
         this._client.publish(rtc.screenVideoTrack);
         rtc.screenVideoTrack.play("local-player")
     }
 
-    async leave (){
+    async leave() {
         rtc.localAudioTrack.close();
         rtc.localVideoTrack.close();
     }

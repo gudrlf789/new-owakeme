@@ -107,19 +107,19 @@ export default class RTMClient extends EventEmitter {
     return this.client.sendMessageToPeer(mediaMessage, peerId)
   }
 
-  async sendChannelMediaMessage (blob, channelName) {
+  async sendChannelMediaMessage (blob, channelName, files) {
     console.log('sendChannelMessage', blob, channelName)
     if (!this.channels[channelName] || !this.channels[channelName].joined) return
     const mediaMessage = await this.client.createMediaMessageByUploading(blob, {
-      messageType: 'IMAGE',
-      fileName: 'agora.jpg',
+      messageType: "IMAGE",
+      fileName: files.name,
       description: 'send image',
       thumbnail: blob, 
       // width: 100,
       // height: 200,
       // thumbnailWidth: 50,
       // thumbnailHeight: 200, 
-    }) 
+    })
     return this.channels[channelName].channel.sendMessage(mediaMessage)
   }
 
@@ -132,6 +132,12 @@ export default class RTMClient extends EventEmitter {
         console.log(currentSize, totalSize)
       },
     })
+  }
+
+  async downloadChannelMedia(mediaId){
+    debugger;
+    const blob = await this.client.downloadMedia(mediaId)
+    return blob;
   }
 
 }

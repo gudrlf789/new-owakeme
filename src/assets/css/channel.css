@@ -92,6 +92,10 @@ body {
 
 .video__box {
   flex: 0.7;
+  width: 1000px;
+  height: 1000px;
+
+  box-shadow: 1px 1px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

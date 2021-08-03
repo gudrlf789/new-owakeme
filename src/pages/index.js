@@ -1,8 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
+import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
 import useRouter from '../utils/use-router';
 import '../assets/css/style.css';
 import { Button } from '@material-ui/core';
+import GoogleLoginForm from '../components/googleLoginForm';
+import { userLogIn } from '../reducer/actions/user';
+import { channelEnter } from '../reducer/actions/channel';
+import { setDeviceList } from '../reducer/actions/deviceList'
+import AgoraRTC from 'agora-rtc-sdk-ng'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -26,39 +32,49 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const routerCtx = useRouter();
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    AgoraRTC.getDevices().then(devices => {
+      dispatch(setDeviceList(devices));
+    })
+  }, [])
+  
   const [channelName, setChannelName] = useState('')
   const [userName, setUserName] = useState('')
 
-  const onChanelName = (e) => {
+  const onChanelName = useCallback((e) => {
     e.preventDefault();
 
     setChannelName(e.currentTarget.value)
-  }
+  }, [channelName])
 
-  const onUserName = (e) => {
+  const onUserName = useCallback((e) => {
     e.preventDefault();
 
     setUserName(e.currentTarget.value)
-  }
+  }, [userName])
 
-  const onEnterChanel = () => {
+  const onEnterChanel = useCallback((e) => {
+    dispatch(userLogIn(userName))
+    dispatch(channelEnter(channelName))
+
     routerCtx.history.push({ pathname: `/meeting/${channelName}/${userName}` })
-  }
+  }, [channelName, userName])
 
   return (
-    <div class="container">
-        <div class="row_container">
+    <div className="container">
+        <div className="row_container">
             <div id="logo">
-                <h1 class="title">OWAKE</h1>
+                <h1 className="title">OWAKE</h1>
             </div>
 
             <div id="title_copyright">
                 <span>Hyper Augmented Omni <br />Communication Chnnel_OWAKE</span>
             </div>
 
-            <div class="btn_container">
-                <div class="row">
+            <div className="btn_container">
+                <div className="row">
                     <div id="Name_Your_Channel">
                         <input id="Name_Your_Channel_input" placeholder="Name Your Channel" onChange={onChanelName} />
                     </div>
@@ -72,6 +88,8 @@ export default function SignIn() {
                         <span>Channel ID or URL</span>
                     </div>
                 </div>
+
+                <GoogleLoginForm />
             </div>
 
             <footer id="footer">

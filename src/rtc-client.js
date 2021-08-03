@@ -1,18 +1,16 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import AgoraRTC, {
   IAgoraRTCClient, IAgoraRTCRemoteUser, MicrophoneAudioTrackInitConfig, CameraVideoTrackInitConfig, IMicrophoneAudioTrack, ICameraVideoTrack, ILocalVideoTrack, ILocalAudioTrack
 } from 'agora-rtc-sdk-ng';
 
 export default function RTCClient(client) {
 
-  let { channelName, userName } = useParams();
+  const channelName = useSelector(state => state.channelReducer.channelName);
+  const userName = useSelector(state => state.userReducer.userName);
 
   const [localVideoTrack, setLocalVideoTrack] = useState(undefined);
   const [localAudioTrack, setLocalAudioTrack] = useState(undefined);
-
-  const [joinState, setJoinState] = useState(false);
-
   const [remoteUsers, setRemoteUsers] = useState([]);
 
   async function createLocalTracks(audioConfig, videoConfig) {
@@ -27,8 +25,6 @@ export default function RTCClient(client) {
     const [microphoneTrack, cameraTrack] = await createLocalTracks();
     await client.join(process.env.REACT_APP_AGORA_APP_ID, channelName, null);
     await client.publish([microphoneTrack, cameraTrack]);
-
-    setJoinState(true);
   }
 
   async function leave() {
@@ -41,7 +37,6 @@ export default function RTCClient(client) {
       localVideoTrack.close();
     }
     setRemoteUsers([]);
-    setJoinState(false);
     await client?.leave();
   }
   
@@ -82,11 +77,8 @@ export default function RTCClient(client) {
   return {
     localAudioTrack,
     localVideoTrack,
-    joinState,
     leave,
     join,
-    remoteUsers,
-    channelName,
-    userName
+    remoteUsers
   };
 }
