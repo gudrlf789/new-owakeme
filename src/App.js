@@ -4,13 +4,11 @@ import { Switch, Route } from 'react-router-dom';
 import Index from './pages/index'
 import Meeting from './pages/meeting'
 import Chatting from './components/chatting'
-import ShareScreen from './pages/shareScreen'
 
 function App() {
   return (
     <BrowserRouterHook>
       <Switch>
-        <Route exact path="/shareScreen" component={ShareScreen}></Route>
         <Route exact path="/meeting/:channelName/:userName" component={Meeting}></Route>
         <Route path="/" component={Index}></Route>
       </Switch>
