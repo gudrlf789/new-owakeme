@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom'
 import AgoraRTC, {
-  IAgoraRTCClient, IAgoraRTCRemoteUser, MicrophoneAudioTrackInitConfig, CameraVideoTrackInitConfig, IMicrophoneAudioTrack, ICameraVideoTrack, ILocalVideoTrack, ILocalAudioTrack } from 'agora-rtc-sdk-ng';
+  IAgoraRTCClient, IAgoraRTCRemoteUser, MicrophoneAudioTrackInitConfig, CameraVideoTrackInitConfig, IMicrophoneAudioTrack, ICameraVideoTrack, ILocalVideoTrack, ILocalAudioTrack
+} from 'agora-rtc-sdk-ng';
 
 export default function RTCClient(client) {
 
@@ -43,11 +44,11 @@ export default function RTCClient(client) {
     setJoinState(false);
     await client?.leave();
   }
-
+  
   useEffect(() => {
     if (!client) return;
     join().then(() => {
-        setRemoteUsers(client.remoteUsers);
+      setRemoteUsers(client.remoteUsers);
     });
 
     const handleUserPublished = async (user, mediaType) => {
