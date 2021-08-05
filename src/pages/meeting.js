@@ -138,20 +138,22 @@ const Room = () => {
 
       <div class="view_container">
         <div className="video__box">
-          <div>
+          <div className="video__view">
             <StreamPlayer
               audioTrack={localAudioTrack}
               videoTrack={localVideoTrack}
             />
           </div>
           {remoteUsers.map((user) => (
-            <div key={user.uid}>
+            <div className="video__remote__view" key={user.uid}>
               <StreamPlayer
                 audioTrack={user.audioTrack}
                 videoTrack={user.videoTrack}
               />
             </div>
           ))}
+
+          <div id="screen__player"></div>
         </div>
       </div>
 
@@ -171,7 +173,7 @@ const Room = () => {
           )}
         </div>
         <div className="view_share">
-          <IonIcon icon={shareOutline} />
+          <IonIcon icon={shareOutline} onClick={shareScreen} />
         </div>
         <div className="view_out">
           <IonIcon icon={logOutOutline} onClick={onLeaveChannel} />

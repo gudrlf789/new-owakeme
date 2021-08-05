@@ -92,10 +92,10 @@ body {
 
 .video__box {
   flex: 0.7;
+  padding: 20px;
   width: 1000px;
-  height: 1000px;
-
-  box-shadow: 1px 1px;
+  height: 100%;
+  /* box-shadow: 1px 1px; */
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -103,4 +103,15 @@ body {
 
 .nav__overray__box {
   flex: 0.3;
+}
+
+.video__view {
+  margin: 5px;
+}
+.video__remote__view {
+  margin: 5px;
+}
+
+#screen__player {
+  margin: 5px;
 }
