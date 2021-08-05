@@ -110,6 +110,7 @@ const Room = () => {
           <div id="connect_user_list">
             <GroupIcon className="nav__icon" />
           </div>
+          /**Chatting */
           <div id="chat">
             {["right"].map((anchor) => (
               <React.Fragment key={anchor}>

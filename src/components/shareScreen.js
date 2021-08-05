@@ -30,7 +30,6 @@ function spContainer() {
   spContainerID.style.height = "320px";
 }
 
-/**Handler */
 function handleTrackEnded() {
   var track = localTracks["screenTrack"];
   if (track) {
