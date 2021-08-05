@@ -165,6 +165,7 @@ const Room = () => {
             <IonIcon icon={micOffOutline} onClick={onMic} />
           )}
         </div>
+
         <div className="view_video">
           {useVideocam ? (
             <IonIcon icon={videocamOutline} onClick={onVideocam} />

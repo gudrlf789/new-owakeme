@@ -30,6 +30,7 @@ function spContainer() {
   spContainerID.style.height = "320px";
 }
 
+/**Handler */
 function handleTrackEnded() {
   var track = localTracks["screenTrack"];
   if (track) {
@@ -37,6 +38,7 @@ function handleTrackEnded() {
     track.close();
     localTracks["screenTrack"] = undefined;
   }
+
   $("#local-screen-name").text("");
   client.unpublish(track);
   let spContainerID = document.getElementById("screen__player");
