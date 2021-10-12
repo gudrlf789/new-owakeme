@@ -1,9 +1,7 @@
-import React, { useRef, useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { useRef, useEffect, useCallback } from "react";
 
-const StreamPlayer = ({ audioTrack, videoTrack, type, uid, showUid }) => {
+const StreamPlayer = ({ audioTrack, videoTrack, uid, showUid, onChangeMainTrack }) => {
   const container = useRef(null);
-  const userName = useSelector((state) => state.userReducer.userName);
   
   useEffect(() => {
     if (!container.current) return;
@@ -21,19 +19,22 @@ const StreamPlayer = ({ audioTrack, videoTrack, type, uid, showUid }) => {
     };
   }, [audioTrack]);
 
+  const changeCurrentTrack = useCallback(() => {
+    onChangeMainTrack(uid);
+  }, [uid]);
+
   return (
-    <>
-      <div
-        className="view__container"
-        ref={container}
-      >
-          {showUid && 
-            <div className="stream__container">
-              <div className='stream-uid'>UID: {uid}</div>
-            </div>
-          }
-      </div>
-    </>
+    <div
+      className="view__container"
+      ref={container}
+      onClick={changeCurrentTrack}
+    >
+        {showUid && 
+          <div className="stream__container">
+            <div className='stream-uid'>UID: {uid}</div>
+          </div>
+        }
+    </div>
   );
 };
 
