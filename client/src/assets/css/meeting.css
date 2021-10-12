@@ -1,241 +1,194 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap");
+
 * {
-  padding: 0;
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
 
-#root {
-  overflow: hidden;
+body {
+  overflow-x: hidden;
 }
 
-.video_container {
+.container {
+  position: relative;
+  width: 100%;
+}
+
+.navigation {
+  position: fixed;
+  width: 300px;
+  height: 100%;
+  background: black;
+  transition: 0.5s;
+  overflow-y: auto;
+}
+
+.navigation.active {
+  width: 60px;
+}
+
+.navigation ul {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.navigation ul li {
+  position: relative;
+  width: 100%;
+  list-style: none;
+  margin-bottom: 20px;
+}
+
+.navigation ul li:nth-child(1) {
+  margin-bottom: 20px;
+}
+
+.navigation ul li:nth-child(1):hover {
+  background: transparent;
+}
+
+.navigation ul li {
+  position: relative;
   display: block;
+  width: 100%;
+  display: flex;
+  text-decoration: none;
+  color: #fff;
 }
 
-.header__container {
-  background-color: #000;
-  flex: 0.1;
+.navigation ul li .title {
+  position: relative;
+  display: block;
+  padding: 0 10px;
+  height: 60px;
+  line-height: 60px;
+  white-space: nowrap;
+}
+
+.navigation ul li .title img {
+  width: 100%;
+  height: 100%;
+}
+
+.navigation ul li .view__container {
+  width: 100%;
+  height: 200px;
+}
+
+.main {
+  position: absolute;
+  width: calc(100% - 300px);
+  left: 300px;
+  min-height: 100vh;
+  background: #f5f5f5;
+  transition: 0.5s;
+}
+
+.main.active {
+  width: calc(100% - 30px);
+  left: 60px;
+}
+
+.main .topbar {
+  width: 100%;
+  background: black;
+  height: 60px;
+  padding: 0 10px;
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  height: 5vh;
 }
 
-.body__container {
-  background-color: #fff;
-  flex: 0.8;
-  height: 76vh;
-  padding: 10px;
-}
-
-.logo {
-  margin-left: 10px;
-}
-
-.logo > img {
-  display: block;
-  margin: 0px auto;
-  cursor: pointer;
-}
-
-.navbar {
-  color: #fff;
-  width: 30px;
-  margin-right: 3;
-}
-
-.navbar > .setting__icon {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-}
-
-.navbar > .setting__icon > img {
-  width: 29px;
-  cursor: pointer;
-}
-
-.body__video__box {
-  background-color: #fff;
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-}
-
-.left__box {
-  display: flex;
+.toggle {
   position: relative;
-
-  flex: 0.7;
-  margin-right: 20px;
-}
-
-.right__box {
-  flex: 0.3;
-  border: 1px solid #000;
-}
-
-.display__box {
-  display: -webkit-inline-box;
-  flex-wrap: wrap;
-  overflow: auto;
-}
-
-.video__box {
-  width: 250px;
-  height: 25vh;
-  border: 2px solid #000;
-  box-shadow: 3px 3px 3px 3px gray;
-  padding: 10px;
-  margin: 10px;
-}
-
-.footer__container {
-  background-color: #000;
-  flex: 0.1;
-  height: 14vh;
-}
-
-.footer__navigator {
-  position: absolute;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  right: 0;
-  left: 0;
-  bottom: 55px;
-  margin: 0 auto;
-  border-radius: 30px;
-}
-
-.navigator__icons {
-  background-color: #fff;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: 6px;
-}
-
-.icons {
-  margin-right: 30px;
-  margin-left: 30px;
-}
-
-.navigator__icons > .icons > img {
-  display: block;
-  margin: 0px auto;
-  width: 35px;
+  width: 60px;
+  height: 60px;
   cursor: pointer;
 }
 
-.navigator__icons > .icons > p {
-  font-size: 12px;
+.toggle::before {
+  content: "\f0c9";
+  font-family: fontAwesome;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  line-height: 60px;
+  font-size: 24px;
   text-align: center;
+  color: #111;
 }
 
-.chat__box {
+.setting {
+  position: relative;
+  min-width: 50px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.setting img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cardBox {
+  position: relative;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 20px;
+}
+
+.cardBox .card {
+  position: relative;
+  background: #fff;
+  padding: 20px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  align-items: center;
+}
+
+.cardBox .card ion-icon {
+  width: 50px;
+  height: 50px;
+}
+
+.track {
+  position: relative;
+  width: 100%;
+  padding-top: 0;
+  display: grid;
+}
+
+.track .videoTrack {
+  position: relative;
+  min-height: 1000px;
+  background: #fff;
+  padding: 20px;
+}
+
+.track .videoTrack .view__container {
+  width: 100%;
   height: 100%;
 }
 
-.chat__body {
-  flex: 0.9;
-  background-color: grey;
-  background-repeat: repeat;
-  background-position: center;
-  overflow-y: scroll;
-  padding: 10px;
-}
-
-.chat__body {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
-.chat__body::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera*/
-}
-
-.chat__message {
-  position: relative;
-  margin-left: 10px;
-  font-size: 16px;
-  padding: 10px;
-  border-radius: 10px;
-  width: fit-content;
-  background-color: #fff;
-  margin-bottom: 30px;
-  margin-top: 0.5vh;
-}
-.chat__receiver {
-  position: relative;
-  margin-left: auto;
-  margin-right: 10px;
-  font-size: 16px;
-  padding: 10px;
-  border-radius: 10px;
-  width: fit-content;
-  background-color: #44a6fa;
-  margin-bottom: 30px;
-  margin-top: 0.5vh;
-}
-
-.chat__name {
-  position: absolute;
-  top: -15px;
-  font-weight: 800;
-  font-size: xx-small;
-}
-
-.chat__timestamp {
-  margin-left: 10px;
-  font-size: xx-small;
-}
-
-.chat__input {
-  flex: 0.1;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-}
-
-.chat__input > input {
-  width: 60%;
-  height: 30px;
-  text-align: center;
-  border-radius: 25px;
-  outline: none;
-}
-
-.chat__input > input:focus {
-  width: 60%;
-  height: 30px;
-  text-align: center;
-  border-radius: 25px;
-  outline: none;
-}
-
-.chat__input > img {
-  width: 30px;
-  margin: 10px;
-  cursor: pointer;
-}
-.view__container {
-  width: 30vw;
-  height: 30vh;
-  margin-right: 5px;
-  position: relative;
-}
-
-.stream__container {
-  width: 30vw;
-  height: 30vh;
+.track .videoTrack .view__container .stream__container {
   position: absolute;
 }
 
-.view__container .stream-uid {
+.track .videoTrack .view__container .stream-uid {
   padding: 2px 11px;
   display: flex;
   align-items: center;
@@ -253,29 +206,79 @@
   line-height: 14px;
 }
 
-.uploaded {
-  margin-top: 10%;
+@media (max-width: 992px) {
+  .navigation {
+    left: -300px;
+  }
+
+  .navigation.active {
+    left: 0;
+    width: 300px;
+  }
+
+  .main {
+    width: 100%;
+    left: 0;
+  }
+
+  .main.active {
+    width: calc(100% - 300px);
+    left: 300px;
+  }
+
+  .cardBox {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
-.download__button {
-  text-align: center;
-  cursor: pointer;
-  outline: none;
-  color: #fff;
-  background-color: rgba(0, 0, 0, 0.4);
-  border: none;
-  border-radius: 15px;
-  box-shadow: 0 9px #999;
-  width: 60%;
-  margin-top: 5%;
+@media (max-width: 768px) {
+  .track {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .cardHeader h2 {
+    font-weight: 600;
+    font-size: 18px;
+  }
 }
 
-.download__button:hover {
-  background-color: rgba(0, 0, 0, 0.5);
-}
+@media (max-width: 480px) {
+  .cardBox {
+    grid-template-columns: repeat(1, 1fr);
+  }
 
-.download__button:active {
-  background-color: rgba(0, 0, 0, 0.5);
-  box-shadow: 0 5px #666;
-  transform: translateY(4px);
+  .track .videoTrack {
+    overflow-x: auto;
+  }
+
+  .navigation {
+    width: 100%;
+    left: -100%;
+    z-index: 1000;
+  }
+
+  .navigation.active {
+    width: 100%;
+    left: 0%;
+  }
+
+  .toggle .menuOutline {
+    width: 100%;
+    height: 100%;
+    background: white;
+    border-radius: 10%;
+  }
+
+  .toggle.active {
+    position: fixed;
+    z-index: 10000;
+    right: 0;
+    left: initial;
+  }
+
+  .main,
+  .main.active {
+    width: 100%;
+    left: 0;
+  }
 }
