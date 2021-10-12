@@ -4,6 +4,9 @@ export const SET_ON_LOCAL_SHARE = 'SET_ON_LOCAL_SHARE';
 export const SET_OFF_LOCAL_SHARE = 'SET_OFF_LOCAL_SHARE';
 export const SET_USE_SHARING = 'SET_USE_SHARING';
 export const SET_DONT_USE_SHARING = 'SET_DONT_USE_SHARING';
+export const SET_TRACKS = 'SET_TRACKS';
+export const SET_CURRENT_TRACK = 'SET_CURRENT_TRACK';
+export const SET_DELETE_TRACK = 'SET_DELETE_TRACK';
 
 export const onLocalTrack = (videoTrack, audioTrack, client) => {
     return {
@@ -14,9 +17,10 @@ export const onLocalTrack = (videoTrack, audioTrack, client) => {
     }
 }
 
-export const onLeaveLocalTrack = () => {
+export const onLeaveLocalTrack = (uid) => {
     return {
         type: SET_LEAVE_LOCAL_TRACK,
+        uid: uid
     }
 }
 
@@ -28,9 +32,10 @@ export const onLocalShare = (shareClient, shareTrack) => {
     }
 }
 
-export const offLocalShare = () => {
+export const offLocalShare = (uid) => {
     return {
-        type: SET_OFF_LOCAL_SHARE
+        type: SET_OFF_LOCAL_SHARE,
+        uid: uid
     }
 }
 
@@ -43,5 +48,30 @@ export const useSharing = () => {
 export const dontUseSharing = () => {
     return {
         type: SET_DONT_USE_SHARING
+    }
+}
+
+export const setTracks = (uid, audioTrack, videoTrack) => {
+    return {
+        type: SET_TRACKS,
+        uid: uid,
+        audioTrack: audioTrack,
+        videoTrack: videoTrack
+    }
+}
+
+export const setCurrentTrack = (uid, audioTrack, videoTrack) => {
+    return {
+        type: SET_CURRENT_TRACK,
+        uid: uid,
+        audioTrack: audioTrack,
+        videoTrack: videoTrack
+    }
+}
+
+export const setDeleteTrack = (uid) => {
+    return {
+        type: SET_DELETE_TRACK,
+        uid: uid
     }
 }
