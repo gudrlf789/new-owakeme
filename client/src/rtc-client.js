@@ -1,27 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import AgoraRTC  from 'agora-rtc-sdk-ng';
-import { onLocalTrack, onLeaveLocalTrack, onLocalShare, offLocalShare, useSharing, dontUseSharing } from './reducer/actions/track';
+import { onLocalTrack, onLeaveLocalTrack, onLocalShare, offLocalShare, useSharing, dontUseSharing, setTracks, setCurrentTrack, setDeleteTrack } from './reducer/actions/track';
 
 export default function RTCClient(client) {
   const channelName = useSelector(state => state.channelReducer.channelName);
   const { audioId, cameraId, resolution } = useSelector(state => state.deviceReducer);
   const { localVideo, localAudio, localClient, shareClient, shareTrack } = useSelector(state => state.trackReducer);
-  
-  const [localVideoTrack, setLocalVideoTrack] = useState(undefined);
-  const [localAudioTrack, setLocalAudioTrack] = useState(undefined);
-  const [localUid, setLocalUid] = useState('');
-  const [remoteUsers, setRemoteUsers] = useState([]);
 
   const dispatch = useDispatch();
 
   async function createLocalTracks() {
     const microphoneTrack = await AgoraRTC.createMicrophoneAudioTrack({ AEC: true, AGC: true, ANS: true, audioId: audioId });
     const cameraTrack = await AgoraRTC.createCameraVideoTrack({ cameraId: cameraId, encoderConfig: resolution});
-
     dispatch(onLocalTrack(cameraTrack, microphoneTrack, client));
-    setLocalVideoTrack(cameraTrack)
-    setLocalAudioTrack(microphoneTrack)
 
     return [microphoneTrack, cameraTrack];
   }
@@ -30,7 +22,9 @@ export default function RTCClient(client) {
     if (!client) return;
     const [microphoneTrack, cameraTrack] = await createLocalTracks();
     const uid = await client.join(process.env.REACT_APP_AGORA_APP_ID, channelName, null);
-    setLocalUid(uid);
+
+    dispatch(setCurrentTrack(uid, microphoneTrack, cameraTrack));
+    dispatch(setTracks(uid, microphoneTrack, cameraTrack));
     await client.publish([microphoneTrack, cameraTrack]);
   }
 
@@ -47,19 +41,22 @@ export default function RTCClient(client) {
       video.stop();
       video.close();
     }
-    dispatch(onLeaveLocalTrack());
-    setRemoteUsers([]);
+
+    dispatch(onLeaveLocalTrack(userClient.uid));
+
     await userClient?.leave();
   }
 
   function LeaveShareScreen(screenClient, screenTrack) {
+    const screenUid = screenClient.uid;
+
     screenClient.unpublish(screenTrack);
     screenTrack.stop();
     screenTrack.close();
 
     screenClient.leave();
     dispatch(useSharing());
-    dispatch(offLocalShare());
+    dispatch(offLocalShare(screenUid));
   }
 
   async function share() {
@@ -71,13 +68,11 @@ export default function RTCClient(client) {
 
       const screenTrack = await AgoraRTC.createScreenVideoTrack({encoderConfig: resolution});
       await screenClient.publish(screenTrack);
-      
       dispatch(onLocalShare(screenClient, screenTrack));
 
-      screenTrack.on("track-ended", () => {
+      screenTrack.on("track-ended", (user) => {
         dispatch(dontUseSharing());
         LeaveShareScreen(screenClient, screenTrack);
-        setRemoteUsers(remoteUsers => Array.from(client.remoteUsers));
       })
       return screenTrack;
     }
@@ -97,7 +92,10 @@ export default function RTCClient(client) {
     
     const handleUserPublished = async (user, mediaType) => {
       await client.subscribe(user, mediaType);
-      setRemoteUsers(remoteUsers => Array.from(client.remoteUsers));
+      
+      if(mediaType == "video"){
+        dispatch(setTracks(user.uid, user.audioTrack, user.videoTrack));
+      }
     }
     const handleUserUnpublished = (user) => {
       //setRemoteUsers(remoteUsers => Array.from(client.remoteUsers));
@@ -106,7 +104,7 @@ export default function RTCClient(client) {
       //setRemoteUsers(remoteUsers => Array.from(client.remoteUsers));
     }
     const handleUserLeft = (user) => {
-      setRemoteUsers(remoteUsers => Array.from(client.remoteUsers));
+      dispatch(setDeleteTrack(user.uid));
     }
     const handleConnectionStateChange = (curState, prevState) => {
 
@@ -127,10 +125,6 @@ export default function RTCClient(client) {
   }, [client]);
 
   return {
-    localVideoTrack,
-    localAudioTrack,
-    remoteUsers,
-    localUid,
     share,
     leave
   };
