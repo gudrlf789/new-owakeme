@@ -2,7 +2,7 @@ import React, { useState, useMemo, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Grid, useMediaQuery } from '@material-ui/core';
-import StreamPlayer from '../components/streamPlayer_test';
+import StreamPlayer from '../components/streamPlayer';
 import AgoraRTC from 'agora-rtc-sdk-ng';
 import RTCClient from '../rtc-client';
 import { IonIcon } from '@ionic/react'
