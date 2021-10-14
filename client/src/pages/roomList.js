@@ -18,7 +18,7 @@ function RoomList() {
       <div className="container">
         <div className="inner__container">
           <div className="header__container">
-            <div className="logo">
+            <div className="roomList_logo">
               <img src={new_owake_logo_white} alt="" />
             </div>
           </div>

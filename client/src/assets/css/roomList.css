@@ -56,7 +56,7 @@
 
 .channel__inner__box .profile img {
   border-radius: 60%;
-  width: 20%;
+  width: 40%;
   display: block;
   margin: auto;
 }
@@ -98,11 +98,11 @@
   border-bottom: 1px solid black;
 }
 
-.logo {
+.roomList_logo {
   margin: 10px;
 }
 
-.logo > img {
+.roomList_logo > img {
   width: 50%;
   vertical-align: middle;
   margin-left: 10%;
