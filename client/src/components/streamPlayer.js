@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useCallback } from "react";
 
 const StreamPlayer = ({ audioTrack, videoTrack, uid, showUid, onChangeMainTrack }) => {
   const container = useRef(null);
-  
+ 
   useEffect(() => {
     if (!container.current) return;
     videoTrack?.play(container.current);

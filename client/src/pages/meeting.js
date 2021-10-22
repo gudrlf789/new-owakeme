@@ -6,7 +6,7 @@ import StreamPlayer from '../components/streamPlayer';
 import AgoraRTC from 'agora-rtc-sdk-ng';
 import RTCClient from '../rtc-client';
 import { IonIcon } from '@ionic/react'
-import { menuOutline, micOutline, micOffOutline, videocamOutline, videocamOffOutline, shareOutline, logOutOutline } from 'ionicons/icons'
+import { micOutline, micOffOutline, videocamOutline, videocamOffOutline, shareOutline, logOutOutline, codeOutline } from 'ionicons/icons'
 import useRouter from '../utils/use-router';
 import axios from 'axios';
 import { userLogOut } from '../reducer/actions/user';
@@ -85,11 +85,11 @@ const Room = () => {
   };	    	
 
   return (
-    <div class="container">
-      <div class="navigation">
+    <div className="container">
+      <div className="navigation">
         <ul>
           <li>
-            <span class="title"><img src={new_owake_logo_white} alt="" /></span>
+            <span className="title"><img src={new_owake_logo_white} alt="" /></span>
           </li>
           {otherTracks.length > 0 ? 
               otherTracks.map((user, index) => (
@@ -103,19 +103,19 @@ const Room = () => {
         </ul>
       </div>
 
-      <div class="main">
-        <div class="topbar">
+      <div className="main">
+        <div className="topbar">
           <div class="toggle" onClick={toggleMenu}>
-            <IonIcon className="menuOutline" icon={menuOutline}></IonIcon>
+            <IonIcon className="codeOutline" icon={codeOutline}></IonIcon>
           </div>
           
-          <div class="setting">
+          <div className="setting">
             <img src={setting} alt="" onClick={onUseSetting} />
           </div>
         </div>
 
-        <div class="track">
-          <div class="videoTrack">
+        <div className="track">
+          <div className="videoTrack">
             {mainTrack.length > 0 ?
               <StreamPlayer videoTrack={mainTrack[0].videoTrack} uid={mainTrack[0].uid} showUid={true} onChangeMainTrack={onChangeMainTrack} />
               :
@@ -127,20 +127,20 @@ const Room = () => {
           </div>
         </div>
 
-        <div class="cardBox">
-          <div class="card">
+        <div className="cardBox">
+          <div className="card">
             {useMic ? <IonIcon icon={micOutline} onClick={onMic}></IonIcon> : <IonIcon icon={micOffOutline} onClick={onMic}></IonIcon>}
             <p>MIC</p>
           </div>
-          <div class="card">
+          <div className="card">
             {useVideocam ? <IonIcon icon={videocamOutline} onClick={onVideocam}></IonIcon> : <IonIcon icon={videocamOffOutline} onClick={onVideocam}></IonIcon>}
             <p>CAM</p>
           </div>
-          <div class="card">
+          <div className="card">
             {sharing ? <IonIcon icon={shareOutline} onClick={onShareScreen}></IonIcon> : <IonIcon icon={shareOutline} onClick={onShareScreen}></IonIcon>}
             <p>SHARE SCREEN</p>
           </div>
-          <div class="card">
+          <div className="card">
             <IonIcon icon={logOutOutline} onClick={onLeaveChannel}></IonIcon>
             <p>LEAVE</p>
           </div>

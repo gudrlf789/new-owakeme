@@ -81,7 +81,6 @@ export default function RTCClient(client) {
 
   useEffect(() => {
     if (!client) return;
-
     if(localClient){
       leave(localVideo, localAudio, localClient).then(() => {
         join();
